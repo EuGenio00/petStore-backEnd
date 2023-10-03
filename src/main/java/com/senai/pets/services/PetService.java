@@ -33,6 +33,11 @@ public class PetService {
   }
 
   public Pet update(Pet pet) {
-    return repository.save(pet);
+    if (repository.existsById(pet.getId())) {
+      return repository.save(pet);
+    } else {
+      return null;
+    }
+
   }
 }
