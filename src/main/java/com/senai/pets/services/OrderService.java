@@ -1,9 +1,14 @@
 package com.senai.pets.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.senai.pets.entities.Order;
 import com.senai.pets.repositories.OrderRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class OrderService {
@@ -11,21 +16,21 @@ public class OrderService {
   private OrderRepository repository;
 
   @Transactional
-  public User create(User user) {
-    User userCriado = repository.save(user);
-    return userCriado;
+  public Order create(Order order) {
+    Order orderCriado = repository.save(order);
+    return orderCriado;
   }
 
   @Transactional
-  public User read(Long id) {
-    User userRetornado = repository.findById(id).get();
-    return userRetornado;
+  public Order read(Long id) {
+    Order orderRetornado = repository.findById(id).get();
+    return orderRetornado;
   }
 
   @Transactional
-  public List<User> list() {
-    List<User> users = (List<User>) repository.findAll();
-    return users;
+  public List<Order> list() {
+    List<Order> orders = (List<Order>) repository.findAll();
+    return orders;
   }
 
   @Transactional
@@ -34,9 +39,9 @@ public class OrderService {
   }
 
   @Transactional
-  public User update(User user) {
-    if (repository.existsById(user.getId())) {
-      return repository.save(user);
+  public Order update(Order order) {
+    if (repository.existsById(order.getId())) {
+      return repository.save(order);
     } else {
       return null;
     }
