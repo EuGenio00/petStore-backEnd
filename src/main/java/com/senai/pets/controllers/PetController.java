@@ -14,26 +14,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.senai.pets.entities.Category;
-import com.senai.pets.services.CategoryService;
+import com.senai.pets.entities.Pet;
+import com.senai.pets.services.PetService;
 
 @RestController
-@RequestMapping("/categories")
-
-public class CategoryController {
+@RequestMapping("/pets")
+public class PetController {
   @Autowired
-  private CategoryService service;
+  private PetService service;
 
   @PostMapping
-  public ResponseEntity<Category> post(@RequestBody Category category) {
-    Category categoriaCriada = service.create(category);
-    return new ResponseEntity<Category>(categoriaCriada, HttpStatus.CREATED);
+  public ResponseEntity<Pet> post(@RequestBody Pet pet) {
+    Pet petCriado = service.create(pet);
+    return new ResponseEntity<Pet>(petCriado, HttpStatus.CREATED);
   }
 
   @PutMapping
-  public ResponseEntity<Category> put(@RequestBody Category category) {
-    Category categoriaAtualizada = service.update(category);
-    return ResponseEntity.ok(categoriaAtualizada);
+  public ResponseEntity<Pet> put(@RequestBody Pet pet) {
+    Pet petAtualizado = service.update(pet);
+    return ResponseEntity.ok(petAtualizado);
   }
 
   @DeleteMapping("/{id}")
@@ -44,14 +43,14 @@ public class CategoryController {
 
   @GetMapping
 
-  public ResponseEntity<List<Category>> getList() {
-    List<Category> lista = service.list();
+  public ResponseEntity<List<Pet>> getList() {
+    List<Pet> lista = service.list();
     return ResponseEntity.ok(lista);
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Category> getRead(@PathVariable Long id) {
-    Category categoriaEncontrada = service.read(id);
-    return ResponseEntity.ok(categoriaEncontrada);
+  public ResponseEntity<Pet> getRead(@PathVariable Long id) {
+    Pet petEncontrado = service.read(id);
+    return ResponseEntity.ok(petEncontrado);
   }
 }
