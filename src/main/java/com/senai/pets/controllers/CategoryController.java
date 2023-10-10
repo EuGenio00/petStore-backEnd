@@ -2,6 +2,9 @@ package com.senai.pets.controllers;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.senai.pets.entities.Category;
@@ -10,27 +13,28 @@ import com.senai.pets.services.CategoryService;
 public class CategoryController {
   private CategoryService service;
 
-  public Category post(@RequestBody Category category) {
+  public ResponseEntity<Category> post(@RequestBody Category category) {
     Category categoriaCriada = service.create(category);
-    return categoriaCriada;
+    return new ResponseEntity<Category>(categoriaCriada, HttpStatus.CREATED);
   }
 
-  public Category put(@RequestBody Category category) {
+  public ResponseEntity<Category> put(@RequestBody Category category) {
     Category categoriaAtualizada = service.update(category);
-    return categoriaAtualizada;
+    return ResponseEntity.ok(categoriaAtualizada);
   }
 
-  public void delete(Long id) {
+  public ResponseEntity delete(@PathVariable Long id) {
     service.delete(id);
+    return ResponseEntity.noContent().build();
   }
 
-  public List<Category> getList() {
+  public ResponseEntity<List<Category>> getList() {
     List<Category> lista = service.list();
-    return lista;
+    return ResponseEntity.ok(lista);
   }
 
-  public Category getRead(Long id) {
+  public ResponseEntity<Category> getRead(@PathVariable Long id) {
     Category categoriaEncontrada = service.read(id);
-    return categoriaEncontrada;
+    return ResponseEntity.ok(categoriaEncontrada);
   }
 }
