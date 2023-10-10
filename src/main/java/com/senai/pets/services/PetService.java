@@ -21,13 +21,11 @@ public class PetService {
     return petCriado;
   }
 
-  @Transactional
   public Pet read(Long id) {
     Pet petRetornado = repository.findById(id).get();
     return petRetornado;
   }
 
-  @Transactional
   public List<Pet> list() {
     List<Pet> pets = (List<Pet>) repository.findAll();
     return pets;

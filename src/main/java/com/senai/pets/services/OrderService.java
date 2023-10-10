@@ -21,13 +21,11 @@ public class OrderService {
     return orderCriado;
   }
 
-  @Transactional
   public Order read(Long id) {
     Order orderRetornado = repository.findById(id).get();
     return orderRetornado;
   }
 
-  @Transactional
   public List<Order> list() {
     List<Order> orders = (List<Order>) repository.findAll();
     return orders;

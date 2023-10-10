@@ -21,13 +21,11 @@ public class UserService {
     return userCriado;
   }
 
-  @Transactional
   public User read(Long id) {
     User userRetornado = repository.findById(id).get();
     return userRetornado;
   }
 
-  @Transactional
   public List<User> list() {
     List<User> users = (List<User>) repository.findAll();
     return users;
