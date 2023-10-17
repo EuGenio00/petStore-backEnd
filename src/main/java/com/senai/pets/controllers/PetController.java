@@ -26,31 +26,36 @@ public class PetController {
   @PostMapping
   public ResponseEntity<Pet> post(@RequestBody Pet pet) {
     Pet petCriado = service.create(pet);
+    // return ResponseEntity.ok(petCriado);
     return new ResponseEntity<Pet>(petCriado, HttpStatus.CREATED);
   }
 
   @PutMapping
   public ResponseEntity<Pet> put(@RequestBody Pet pet) {
     Pet petAtualizado = service.update(pet);
-    return ResponseEntity.ok(petAtualizado);
-  }
-
-  @DeleteMapping("/{id}")
-  public ResponseEntity delete(@PathVariable Long id) {
-    service.delete(id);
-    return ResponseEntity.noContent().build();
+    // return ResponseEntity.ok(petAtualizado);
+    return new ResponseEntity<Pet>(petAtualizado, HttpStatus.OK);
   }
 
   @GetMapping
-
   public ResponseEntity<List<Pet>> getList() {
     List<Pet> lista = service.list();
     return ResponseEntity.ok(lista);
+    // return new ResponseEntity<>(lista, HttpStatus.OK);
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<Pet> getRead(@PathVariable Long id) {
     Pet petEncontrado = service.read(id);
     return ResponseEntity.ok(petEncontrado);
+    // return new ResponseEntity<Pet>(petEncontrado, HttpStatus.OK);
   }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity delete(@PathVariable Long id) {
+    service.delete(id);
+    return ResponseEntity.noContent().build();
+    // return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  }
+
 }
