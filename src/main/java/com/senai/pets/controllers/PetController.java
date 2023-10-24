@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.senai.pets.dtos.PetInputDTO;
 import com.senai.pets.entities.Pet;
 import com.senai.pets.services.PetService;
 
@@ -24,7 +25,7 @@ public class PetController {
   private PetService service;
 
   @PostMapping
-  public ResponseEntity<Pet> post(@RequestBody Pet pet) {
+  public ResponseEntity<Pet> post(@RequestBody PetInputDTO pet) {
     Pet petCriado = service.create(pet);
     // return ResponseEntity.ok(petCriado);
     return new ResponseEntity<>(petCriado, HttpStatus.CREATED);

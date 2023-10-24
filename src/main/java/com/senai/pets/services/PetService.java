@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.senai.pets.dtos.PetInputDTO;
 import com.senai.pets.entities.Pet;
 import com.senai.pets.repositories.PetRepository;
 
@@ -16,7 +17,8 @@ public class PetService {
   private PetRepository repository;
 
   @Transactional
-  public Pet create(Pet pet) {
+  public Pet create(PetInputDTO dto) {
+    Pet pet = new Pet(dto);
     Pet petCriado = repository.save(pet);
     return petCriado;
   }
