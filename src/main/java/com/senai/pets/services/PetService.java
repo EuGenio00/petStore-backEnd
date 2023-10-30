@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.senai.pets.dtos.PetInputDTO;
+import com.senai.pets.dtos.PetOutputDTO;
 import com.senai.pets.entities.Pet;
 import com.senai.pets.repositories.PetRepository;
 
@@ -17,10 +18,19 @@ public class PetService {
   private PetRepository repository;
 
   @Transactional
-  public Pet create(PetInputDTO dto) {
-    Pet pet = new Pet(dto);
+  public PetOutputDTO create(PetInputDTO dto) {
+    Pet pet = new Pet();
+    pet.setName(dto.getName());
+    pet.setStatus(dto.getStatus());
+
     Pet petCriado = repository.save(pet);
-    return petCriado;
+
+    return convertePetOutput(petCriado);
+  }
+
+  public PetOutputDTO convertePetOutput(Pet pet) {
+    PetOutputDTO petSaida = new PetOutputDTO(pet.getId(), pet.getName(), pet.getStatus());
+    return petSaida;
   }
 
   public Pet read(Long id) {
