@@ -16,6 +16,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class PetInputDTO {
+  private Long id;
   @NotBlank
   private String name;
   @NotNull

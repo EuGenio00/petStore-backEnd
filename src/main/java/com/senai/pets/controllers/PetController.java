@@ -3,6 +3,7 @@ package com.senai.pets.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,22 +36,22 @@ public class PetController {
   }
 
   @PutMapping
-  public ResponseEntity<Pet> put(@RequestBody Pet pet) {
-    Pet petAtualizado = service.update(pet);
+  public ResponseEntity<PetOutputDTO> put(@RequestBody PetInputDTO pet) {
+    PetOutputDTO petAtualizado = service.update(pet);
     // return ResponseEntity.ok(petAtualizado);
     return new ResponseEntity<>(petAtualizado, HttpStatus.OK);
   }
 
   @GetMapping
-  public ResponseEntity<List<Pet>> getList() {
-    List<Pet> lista = service.list();
+  public ResponseEntity<List<PetOutputDTO>> getList(Pageable page) {
+    List<PetOutputDTO> lista = service.list(page);
     return ResponseEntity.ok(lista);
     // return new ResponseEntity<>(lista, HttpStatus.OK);
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Pet> getRead(@PathVariable Long id) {
-    Pet petEncontrado = service.read(id);
+  public ResponseEntity<PetOutputDTO> getRead(@PathVariable Long id) {
+    PetOutputDTO petEncontrado = service.read(id);
     return ResponseEntity.ok(petEncontrado);
     // return new ResponseEntity<>(petEncontrado, HttpStatus.OK);
   }

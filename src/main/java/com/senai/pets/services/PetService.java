@@ -3,6 +3,7 @@ package com.senai.pets.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.senai.pets.dtos.PetInputDTO;
@@ -19,28 +20,33 @@ public class PetService {
 
   @Transactional
   public PetOutputDTO create(PetInputDTO dto) {
+    Pet petCriado = repository.save(converterDtoParaEntidade(dto));
+    return converterEntidadeParaDTO(petCriado);
+
+  }
+
+  public PetOutputDTO converterEntidadeParaDTO(Pet pet) {
+    PetOutputDTO dtoSaida = new PetOutputDTO();
+    dtoSaida.setId(pet.getId());
+    dtoSaida.setName(pet.getName());
+    dtoSaida.setStatus(pet.getStatus());
+    return dtoSaida;
+  }
+
+  public Pet converterDtoParaEntidade(PetInputDTO dto) {
     Pet pet = new Pet();
     pet.setName(dto.getName());
     pet.setStatus(dto.getStatus());
-
-    Pet petCriado = repository.save(pet);
-
-    return convertePetOutput(petCriado);
+    return pet;
   }
 
-  public PetOutputDTO convertePetOutput(Pet pet) {
-    PetOutputDTO petSaida = new PetOutputDTO(pet.getId(), pet.getName(), pet.getStatus());
-    return petSaida;
-  }
-
-  public Pet read(Long id) {
+  public PetOutputDTO read(Long id) {
     Pet petRetornado = repository.findById(id).get();
-    return petRetornado;
+    return converterEntidadeParaDTO(petRetornado);
   }
 
-  public List<Pet> list() {
-    List<Pet> pets = (List<Pet>) repository.findAll();
-    return pets;
+  public List<PetOutputDTO> list(Pageable page) {
+    return repository.findAll(page).stream().map(p -> converterEntidadeParaDTO(p)).toList();
   }
 
   @Transactional
@@ -49,9 +55,13 @@ public class PetService {
   }
 
   @Transactional
-  public Pet update(Pet pet) {
+  public PetOutputDTO update(PetInputDTO pet) {
+    if (pet.getId() == null) {
+      pet.setId(991l);
+    }
     if (repository.existsById(pet.getId())) {
-      return repository.save(pet);
+      Pet petAtualizado = repository.save(converterDtoParaEntidade(pet));
+      return converterEntidadeParaDTO(petAtualizado);
     } else {
       return null;
     }
